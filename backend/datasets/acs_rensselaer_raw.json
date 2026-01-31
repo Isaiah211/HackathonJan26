@@ -1,0 +1,492 @@
+[
+  [
+    "NAME",
+    "B01003_001E",
+    "B19013_001E",
+    "B23025_005E",
+    "B23025_003E",
+    "state",
+    "county",
+    "tract"
+  ],
+  [
+    "Census Tract 401; Rensselaer County; New York",
+    "4228",
+    "42700",
+    "214",
+    "2014",
+    "36",
+    "083",
+    "040100"
+  ],
+  [
+    "Census Tract 402; Rensselaer County; New York",
+    "4659",
+    "39089",
+    "262",
+    "1945",
+    "36",
+    "083",
+    "040200"
+  ],
+  [
+    "Census Tract 403; Rensselaer County; New York",
+    "3327",
+    "65833",
+    "99",
+    "1842",
+    "36",
+    "083",
+    "040300"
+  ],
+  [
+    "Census Tract 404; Rensselaer County; New York",
+    "2337",
+    "31939",
+    "307",
+    "1102",
+    "36",
+    "083",
+    "040400"
+  ],
+  [
+    "Census Tract 405; Rensselaer County; New York",
+    "2025",
+    "35625",
+    "253",
+    "994",
+    "36",
+    "083",
+    "040500"
+  ],
+  [
+    "Census Tract 406; Rensselaer County; New York",
+    "2196",
+    "46000",
+    "70",
+    "976",
+    "36",
+    "083",
+    "040600"
+  ],
+  [
+    "Census Tract 407.01; Rensselaer County; New York",
+    "4095",
+    "46291",
+    "211",
+    "2332",
+    "36",
+    "083",
+    "040701"
+  ],
+  [
+    "Census Tract 407.02; Rensselaer County; New York",
+    "1403",
+    "56354",
+    "45",
+    "810",
+    "36",
+    "083",
+    "040702"
+  ],
+  [
+    "Census Tract 408; Rensselaer County; New York",
+    "1857",
+    "61335",
+    "151",
+    "1382",
+    "36",
+    "083",
+    "040800"
+  ],
+  [
+    "Census Tract 409; Rensselaer County; New York",
+    "2888",
+    "49321",
+    "232",
+    "1545",
+    "36",
+    "083",
+    "040900"
+  ],
+  [
+    "Census Tract 410; Rensselaer County; New York",
+    "4117",
+    "53921",
+    "127",
+    "2028",
+    "36",
+    "083",
+    "041000"
+  ],
+  [
+    "Census Tract 411.01; Rensselaer County; New York",
+    "2999",
+    "90119",
+    "104",
+    "1975",
+    "36",
+    "083",
+    "041101"
+  ],
+  [
+    "Census Tract 411.02; Rensselaer County; New York",
+    "2487",
+    "47891",
+    "138",
+    "1364",
+    "36",
+    "083",
+    "041102"
+  ],
+  [
+    "Census Tract 412; Rensselaer County; New York",
+    "3599",
+    "81728",
+    "142",
+    "2316",
+    "36",
+    "083",
+    "041200"
+  ],
+  [
+    "Census Tract 413; Rensselaer County; New York",
+    "5043",
+    "66549",
+    "151",
+    "1782",
+    "36",
+    "083",
+    "041300"
+  ],
+  [
+    "Census Tract 414; Rensselaer County; New York",
+    "4008",
+    "66654",
+    "44",
+    "1941",
+    "36",
+    "083",
+    "041400"
+  ],
+  [
+    "Census Tract 515; Rensselaer County; New York",
+    "2684",
+    "56162",
+    "30",
+    "1416",
+    "36",
+    "083",
+    "051500"
+  ],
+  [
+    "Census Tract 516.01; Rensselaer County; New York",
+    "2719",
+    "46875",
+    "58",
+    "1366",
+    "36",
+    "083",
+    "051601"
+  ],
+  [
+    "Census Tract 516.02; Rensselaer County; New York",
+    "3849",
+    "108828",
+    "46",
+    "2219",
+    "36",
+    "083",
+    "051602"
+  ],
+  [
+    "Census Tract 517.01; Rensselaer County; New York",
+    "3488",
+    "90098",
+    "9",
+    "1918",
+    "36",
+    "083",
+    "051701"
+  ],
+  [
+    "Census Tract 517.02; Rensselaer County; New York",
+    "3225",
+    "63811",
+    "16",
+    "1325",
+    "36",
+    "083",
+    "051702"
+  ],
+  [
+    "Census Tract 518; Rensselaer County; New York",
+    "5540",
+    "96181",
+    "150",
+    "2889",
+    "36",
+    "083",
+    "051800"
+  ],
+  [
+    "Census Tract 519.01; Rensselaer County; New York",
+    "4553",
+    "120363",
+    "48",
+    "2708",
+    "36",
+    "083",
+    "051901"
+  ],
+  [
+    "Census Tract 519.02; Rensselaer County; New York",
+    "2861",
+    "103155",
+    "38",
+    "1594",
+    "36",
+    "083",
+    "051902"
+  ],
+  [
+    "Census Tract 520.02; Rensselaer County; New York",
+    "2221",
+    "121354",
+    "62",
+    "1200",
+    "36",
+    "083",
+    "052002"
+  ],
+  [
+    "Census Tract 520.03; Rensselaer County; New York",
+    "3874",
+    "94712",
+    "82",
+    "2249",
+    "36",
+    "083",
+    "052003"
+  ],
+  [
+    "Census Tract 520.04; Rensselaer County; New York",
+    "6447",
+    "118235",
+    "98",
+    "3541",
+    "36",
+    "083",
+    "052004"
+  ],
+  [
+    "Census Tract 521.01; Rensselaer County; New York",
+    "1914",
+    "93482",
+    "17",
+    "933",
+    "36",
+    "083",
+    "052101"
+  ],
+  [
+    "Census Tract 521.02; Rensselaer County; New York",
+    "1325",
+    "77639",
+    "25",
+    "768",
+    "36",
+    "083",
+    "052102"
+  ],
+  [
+    "Census Tract 521.03; Rensselaer County; New York",
+    "2030",
+    "72760",
+    "20",
+    "1012",
+    "36",
+    "083",
+    "052103"
+  ],
+  [
+    "Census Tract 522.01; Rensselaer County; New York",
+    "4330",
+    "120302",
+    "47",
+    "2370",
+    "36",
+    "083",
+    "052201"
+  ],
+  [
+    "Census Tract 522.03; Rensselaer County; New York",
+    "6069",
+    "109358",
+    "126",
+    "3321",
+    "36",
+    "083",
+    "052203"
+  ],
+  [
+    "Census Tract 522.04; Rensselaer County; New York",
+    "2291",
+    "111985",
+    "27",
+    "1196",
+    "36",
+    "083",
+    "052204"
+  ],
+  [
+    "Census Tract 523.01; Rensselaer County; New York",
+    "5493",
+    "118488",
+    "91",
+    "3001",
+    "36",
+    "083",
+    "052301"
+  ],
+  [
+    "Census Tract 523.03; Rensselaer County; New York",
+    "1179",
+    "100781",
+    "51",
+    "706",
+    "36",
+    "083",
+    "052303"
+  ],
+  [
+    "Census Tract 523.05; Rensselaer County; New York",
+    "2584",
+    "82368",
+    "52",
+    "1539",
+    "36",
+    "083",
+    "052305"
+  ],
+  [
+    "Census Tract 523.06; Rensselaer County; New York",
+    "4007",
+    "102961",
+    "71",
+    "1766",
+    "36",
+    "083",
+    "052306"
+  ],
+  [
+    "Census Tract 524.02; Rensselaer County; New York",
+    "2563",
+    "122386",
+    "55",
+    "1198",
+    "36",
+    "083",
+    "052402"
+  ],
+  [
+    "Census Tract 524.05; Rensselaer County; New York",
+    "2737",
+    "94700",
+    "38",
+    "1712",
+    "36",
+    "083",
+    "052405"
+  ],
+  [
+    "Census Tract 524.06; Rensselaer County; New York",
+    "4004",
+    "100142",
+    "97",
+    "2313",
+    "36",
+    "083",
+    "052406"
+  ],
+  [
+    "Census Tract 524.07; Rensselaer County; New York",
+    "5077",
+    "117870",
+    "29",
+    "2727",
+    "36",
+    "083",
+    "052407"
+  ],
+  [
+    "Census Tract 524.08; Rensselaer County; New York",
+    "2299",
+    "93618",
+    "68",
+    "1456",
+    "36",
+    "083",
+    "052408"
+  ],
+  [
+    "Census Tract 525.01; Rensselaer County; New York",
+    "5670",
+    "112261",
+    "121",
+    "2886",
+    "36",
+    "083",
+    "052501"
+  ],
+  [
+    "Census Tract 525.02; Rensselaer County; New York",
+    "5730",
+    "94141",
+    "25",
+    "2920",
+    "36",
+    "083",
+    "052502"
+  ],
+  [
+    "Census Tract 525.03; Rensselaer County; New York",
+    "1480",
+    "59453",
+    "182",
+    "822",
+    "36",
+    "083",
+    "052503"
+  ],
+  [
+    "Census Tract 526.01; Rensselaer County; New York",
+    "3462",
+    "88110",
+    "31",
+    "1948",
+    "36",
+    "083",
+    "052601"
+  ],
+  [
+    "Census Tract 526.02; Rensselaer County; New York",
+    "1169",
+    "74931",
+    "76",
+    "667",
+    "36",
+    "083",
+    "052602"
+  ],
+  [
+    "Census Tract 526.03; Rensselaer County; New York",
+    "2801",
+    "81923",
+    "359",
+    "1765",
+    "36",
+    "083",
+    "052603"
+  ]
+]

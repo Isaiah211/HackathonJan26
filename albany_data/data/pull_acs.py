@@ -6,7 +6,7 @@ url = "https://api.census.gov/data/2022/acs/acs5"
 params = {
     "get": "NAME,B01003_001E,B19013_001E,B23025_005E,B23025_003E",
     "for": "tract:*",
-    "in": "state:36 county:001"
+    "in": "state:36 county:083"
     # API key optional
 }
 
