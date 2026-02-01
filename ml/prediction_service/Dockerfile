@@ -2,13 +2,10 @@ FROM python:3.11-slim
 
 WORKDIR /app
 
-# Install dependencies from the prediction_service requirements file
-COPY ml/requirements.txt /requirements.txt
-COPY ml/prediction_service/requirements.txt /app/requirements.txt
-RUN pip install --no-cache-dir -r /app/requirements.txt
+COPY requirements.txt /app/requirements.txt
+RUN pip install --no-cache-dir -r requirements.txt
 
-# Copy only the ml package (keeps image small and paths consistent)
-COPY ml /app/ml
+COPY . /app
 
 EXPOSE 9000
 

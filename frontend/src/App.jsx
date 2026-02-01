@@ -4,72 +4,9 @@ import BusinessForm from './components/business/BusinessForm';
 import LeafletMap from './components/map/LeafletMap';
 import ResultsPanel from './components/business/ResultsPanel';
 import { ToastProvider, useToast } from './components/ui/Toast';
-import { predictBusinessImpact, getLocationProfileByCoordinates } from './utils/predictionEngine';
+import { predictBusinessImpact, getNeighborhoodByCoordinates } from './utils/predictionEngine';
 import { saveScenario, loadAllScenarios } from './services/storage';
 import { generatePDF } from './services/pdfExport';
-import { predictImpact, deriveScaleFromEmployees, mapCategoryToBusinessType } from './services/api';
-
-const mapFeatureSnapshotToAreaData = (snapshot = {}, fallbackLabel = 'Selected Area') => {
-  if (!snapshot || Object.keys(snapshot).length === 0) return null;
-  return {
-    name: fallbackLabel,
-    populationDensity: Math.round((snapshot.population_density || 0) * 2.58999),
-    medianIncome: Math.round(snapshot.median_income || 0),
-    unemploymentRate: Math.round((snapshot.unemployment_rate || 0) * 1000) / 10,
-    transitScore: Math.round(snapshot.transit_score || 0),
-    existingBusinessCount: Math.round(snapshot.existing_business_count || 0)
-  };
-};
-
-const mergeAnalyses = ({ business, localAnalysis, backendResponse, areaDataFallback }) => {
-  const backendPrediction = backendResponse?.prediction;
-  const areaData = backendPrediction?.feature_snapshot
-    ? mapFeatureSnapshotToAreaData(backendPrediction.feature_snapshot, backendResponse?.input?.locationLabel)
-    : areaDataFallback || localAnalysis.areaData;
-
-  const jobsTotal = Math.round(backendPrediction?.jobs_created ?? localAnalysis.predictions.jobs.total);
-  const directJobs = business.employees;
-  const indirectJobs = Math.max(0, jobsTotal - directJobs);
-  const jobs = {
-    direct: directJobs,
-    indirect: indirectJobs,
-    total: Math.max(jobsTotal, directJobs + indirectJobs)
-  };
-
-  const footTraffic = backendPrediction?.foot_traffic != null
-    ? Math.round(backendPrediction.foot_traffic * 10) / 10
-    : localAnalysis.predictions.footTraffic;
-
-  const localSpending = backendPrediction?.local_spending != null
-    ? Math.round(backendPrediction.local_spending / 1000)
-    : localAnalysis.predictions.localSpending;
-
-  const revenueFromBackend = backendPrediction?.local_spending
-    ? Math.round((backendPrediction.local_spending / 0.65) / 1000)
-    : null;
-  const revenue = revenueFromBackend || localAnalysis.predictions.revenue;
-
-  const taxRevenue = {
-    sales: backendPrediction?.sales_tax != null ? Math.round(backendPrediction.sales_tax / 1000) : localAnalysis.predictions.taxRevenue.sales,
-    property: localAnalysis.predictions.taxRevenue.property,
-    income: localAnalysis.predictions.taxRevenue.income
-  };
-  taxRevenue.total = taxRevenue.sales + taxRevenue.property + taxRevenue.income;
-
-  return {
-    predictions: {
-      jobs,
-      revenue,
-      footTraffic,
-      taxRevenue,
-      localSpending,
-      impactRadius: localAnalysis.predictions.impactRadius
-    },
-    areaData,
-    explanation: backendResponse?.summary || localAnalysis.explanation,
-    timestamp: backendResponse?.generatedAt || localAnalysis.timestamp
-  };
-};
 
 /**
  * Main App Component - ImpactLens
@@ -109,16 +46,13 @@ function AppContent() {
     setIsAnalyzing(true);
 
     try {
+      // Simulate API delay for realistic UX
       await new Promise(resolve => setTimeout(resolve, 800));
 
-      const locationProfile = getLocationProfileByCoordinates(location.lng, location.lat);
+      // Get neighborhood from coordinates
+      const neighborhoodId = getNeighborhoodByCoordinates(location.lng, location.lat);
 
-      if (!locationProfile.areaData || locationProfile.key === 'default') {
-        toast.warning('Please pick a location within the Capital Region coverage area.');
-        setIsAnalyzing(false);
-        return;
-      }
-
+      // Get address from reverse geocoding using Nominatim
       let address = `${location.lat.toFixed(4)}, ${location.lng.toFixed(4)}`;
       
       try {
@@ -138,53 +72,33 @@ function AppContent() {
         console.error('Reverse geocoding failed:', error);
       }
 
-      const localAnalysis = predictBusinessImpact(
+      // Calculate impact predictions
+      const analysis = predictBusinessImpact(
         pendingBusiness,
         {
           lng: location.lng,
           lat: location.lat,
-          neighborhood: locationProfile.key,
-          locationKey: locationProfile.key,
+          neighborhood: neighborhoodId,
           address
         }
       );
 
-      let backendResponse = null;
-      try {
-        backendResponse = await predictImpact({
-          businessType: mapCategoryToBusinessType(pendingBusiness.categoryId),
-          scale: deriveScaleFromEmployees(pendingBusiness.employees),
-          locationKey: locationProfile.key,
-          locationLabel: locationProfile.label,
-          query: pendingBusiness.name
-        });
-      } catch (error) {
-        console.error('Backend prediction failed, using local analysis:', error);
-        toast.warning('Using local analysis due to prediction service issue');
-      }
-
-      const mergedAnalysis = mergeAnalyses({
-        business: pendingBusiness,
-        localAnalysis,
-        backendResponse,
-        areaDataFallback: locationProfile.areaData
-      });
-
+      // Create complete business object
       const completeBusiness = {
         ...pendingBusiness,
         location: {
           lng: location.lng,
           lat: location.lat,
           address,
-          neighborhood: locationProfile.key,
-          locationLabel: locationProfile.label
+          neighborhood: neighborhoodId
         },
-        predictions: mergedAnalysis.predictions,
-        areaData: mergedAnalysis.areaData,
-        explanation: mergedAnalysis.explanation,
-        analyzedAt: mergedAnalysis.timestamp
+        predictions: analysis.predictions,
+        areaData: analysis.areaData,
+        explanation: analysis.explanation,
+        analyzedAt: analysis.timestamp
       };
 
+      // Add to businesses list
       setBusinesses(prev => [...prev, completeBusiness]);
       setSelectedBusinessId(completeBusiness.id);
       setPendingBusiness(null);

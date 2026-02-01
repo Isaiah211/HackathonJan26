@@ -45,103 +45,6 @@ const NEIGHBORHOOD_DATA = {
   }
 };
 
-// Backend-supported location profiles (aligned with ML service keys)
-const LOCATION_PROFILES = [
-  {
-    key: 'downtown_albany',
-    label: 'Downtown Albany',
-    coordinates: [-73.7562, 42.6526],
-    metrics: {
-      population_density: 625.980537087729,
-      median_income: 38880.73518204911,
-      unemployment_rate: 0.11259619279060348,
-      transit_score: 120,
-      existing_business_count: 673
-    }
-  },
-  {
-    key: 'central_ave',
-    label: 'Central Avenue Corridor',
-    coordinates: [-73.7770, 42.6760],
-    metrics: {
-      population_density: 274.2406508564225,
-      median_income: 40526.24324324324,
-      unemployment_rate: 0.06673441734417344,
-      transit_score: 120,
-      existing_business_count: 787
-    }
-  },
-  {
-    key: 'arbor_hill',
-    label: 'Arbor Hill',
-    coordinates: [-73.7530, 42.6695],
-    metrics: {
-      population_density: 285.5760341049881,
-      median_income: 50875,
-      unemployment_rate: 0.061780104712041886,
-      transit_score: 89.24251065780878,
-      existing_business_count: 82
-    }
-  },
-  {
-    key: 'wolf_road',
-    label: 'Wolf Road / Colonie Center',
-    coordinates: [-73.8114, 42.7270],
-    metrics: {
-      population_density: 15176.125383274417,
-      median_income: 85767.1798718262,
-      unemployment_rate: 0.052483780951596004,
-      transit_score: 35.647210311112104,
-      existing_business_count: 69
-    }
-  }
-];
-
-const km2ToMi2 = (value) => value * 2.58999;
-
-const LOCATION_AREA_DATA = LOCATION_PROFILES.reduce((acc, profile) => {
-  const metrics = profile.metrics;
-  acc[profile.key] = {
-    name: profile.label,
-    populationDensity: Math.round(km2ToMi2(metrics.population_density)),
-    medianIncome: Math.round(metrics.median_income),
-    unemploymentRate: Math.round(metrics.unemployment_rate * 1000) / 10,
-    transitScore: Math.round(metrics.transit_score),
-    existingBusinessCount: Math.round(metrics.existing_business_count),
-    coordinates: profile.coordinates
-  };
-  return acc;
-}, {});
-
-const getAreaDataByLocation = (locationKey) => {
-  if (LOCATION_AREA_DATA[locationKey]) return LOCATION_AREA_DATA[locationKey];
-  if (NEIGHBORHOOD_DATA[locationKey]) return NEIGHBORHOOD_DATA[locationKey];
-  return NEIGHBORHOOD_DATA.default;
-};
-
-export const getLocationProfileByCoordinates = (lng, lat) => {
-  let nearest = { key: 'default', label: 'Capital Region', areaData: NEIGHBORHOOD_DATA.default };
-  let minDistance = Infinity;
-
-  LOCATION_PROFILES.forEach((profile) => {
-    const [pLng, pLat] = profile.coordinates;
-    const distance = Math.sqrt(
-      Math.pow(lat - pLat, 2) + Math.pow(lng - pLng, 2)
-    );
-
-    if (distance < minDistance) {
-      minDistance = distance;
-      nearest = {
-        key: profile.key,
-        label: profile.label,
-        areaData: LOCATION_AREA_DATA[profile.key]
-      };
-    }
-  });
-
-  return nearest;
-};
-
 /**
  * Calculate jobs created
  */
@@ -311,7 +214,7 @@ Local economic impact extends to approximately $${predictions.localSpending}k in
  */
 export const predictBusinessImpact = (business, location) => {
   // Get area data
-  const areaData = getAreaDataByLocation(location.neighborhood || location.locationKey);
+  const areaData = NEIGHBORHOOD_DATA[location.neighborhood] || NEIGHBORHOOD_DATA.default;
   
   // Get category multipliers
   const category = getCategoryById(business.categoryId);
@@ -348,13 +251,29 @@ export const predictBusinessImpact = (business, location) => {
  * In production, this would use reverse geocoding API
  */
 export const getNeighborhoodByCoordinates = (lng, lat) => {
-  return getLocationProfileByCoordinates(lng, lat).key;
+  // Simple distance calculation to nearest known neighborhood
+  let nearest = 'default';
+  let minDistance = Infinity;
+  
+  Object.entries(NEIGHBORHOOD_DATA).forEach(([id, data]) => {
+    if (id === 'default') return;
+    
+    const [nLng, nLat] = data.coordinates;
+    const distance = Math.sqrt(
+      Math.pow(lat - nLat, 2) + Math.pow(lng - nLng, 2)
+    );
+    
+    if (distance < minDistance) {
+      minDistance = distance;
+      nearest = id;
+    }
+  });
+  
+  return nearest;
 };
 
 export default {
   predictBusinessImpact,
   getNeighborhoodByCoordinates,
-  getLocationProfileByCoordinates,
-  NEIGHBORHOOD_DATA,
-  LOCATION_PROFILES
+  NEIGHBORHOOD_DATA
 };

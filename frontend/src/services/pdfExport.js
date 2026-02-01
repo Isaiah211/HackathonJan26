@@ -6,23 +6,6 @@
 import jsPDF from 'jspdf';
 import html2canvas from 'html2canvas';
 
-// Cache logo data URL to avoid repeated fetches
-let cachedLogoDataUrl = null;
-
-const loadLogoDataUrl = async () => {
-  if (cachedLogoDataUrl) return cachedLogoDataUrl;
-  try {
-    const response = await fetch('/favicon.svg');
-    const svgText = await response.text();
-    const encoded = btoa(unescape(encodeURIComponent(svgText)));
-    cachedLogoDataUrl = `data:image/svg+xml;base64,${encoded}`;
-    return cachedLogoDataUrl;
-  } catch (error) {
-    console.warn('Logo load failed, continuing without logo:', error);
-    return null;
-  }
-};
-
 /**
  * Generate PDF from scenario data
  * @param {object} scenario - Scenario with businesses and predictions
@@ -59,18 +42,14 @@ export const generatePDF = async (scenario) => {
     pdf.setFillColor(99, 102, 241);
     pdf.rect(0, 0, pageWidth, 25, 'F');
     
-    const headerLogoDataUrl = await loadLogoDataUrl();
-    if (headerLogoDataUrl) {
-      // Draw logo on the left of header
-      pdf.addImage(headerLogoDataUrl, 'SVG', margin, 7, 12, 12);
-    }
     pdf.setTextColor(255, 255, 255);
-    pdf.setFontSize(18);
+    pdf.setFontSize(20);
     pdf.setFont('helvetica', 'bold');
-    pdf.text('ImpactLens', margin + 16, 15);
+    pdf.text('ImpactIQ', margin, 15);
     
     pdf.setFontSize(10);
-    pdf.text('Business Impact Analysis Report', margin + 16, 21);
+    pdf.setFont('helvetica', 'normal');
+    pdf.text('Business Impact Analysis Report', margin, 21);
     
     // Reset text color
     pdf.setTextColor(0, 0, 0);
@@ -132,7 +111,7 @@ export const generatePDF = async (scenario) => {
       pdf.setFontSize(8);
       pdf.setTextColor(128, 128, 128);
       pdf.text(
-        `Page ${i} of ${totalPages} | ImpactLens | impactlens.app`,
+        `Page ${i} of ${totalPages} | ImpactIQ Site Intelligence | impactiq.app`,
         pageWidth / 2,
         pageHeight - 10,
         { align: 'center' }
@@ -140,7 +119,7 @@ export const generatePDF = async (scenario) => {
     }
 
     // Save the PDF
-    const filename = `ImpactLens_${scenario.name?.replace(/[^a-z0-9]/gi, '_') || 'Report'}_${new Date().toISOString().split('T')[0]}.pdf`;
+    const filename = `ImpactIQ_${scenario.name?.replace(/[^a-z0-9]/gi, '_') || 'Report'}_${new Date().toISOString().split('T')[0]}.pdf`;
     pdf.save(filename);
 
     return { success: true, filename };
@@ -177,19 +156,14 @@ export const generatePDFWithCharts = async (element, scenario) => {
     // Add header
     pdf.setFillColor(99, 102, 241);
     pdf.rect(0, 0, pageWidth, 25, 'F');
-
-    const chartHeaderLogoDataUrl = await loadLogoDataUrl();
-    if (chartHeaderLogoDataUrl) {
-      pdf.addImage(chartHeaderLogoDataUrl, 'SVG', 10, 7, 12, 12);
-    }
     
     pdf.setTextColor(255, 255, 255);
-    pdf.setFontSize(18);
+    pdf.setFontSize(20);
     pdf.setFont('helvetica', 'bold');
-    pdf.text('ImpactLens', 26, 15);
+    pdf.text('ImpactIQ', 10, 15);
     
     pdf.setFontSize(10);
-    pdf.text('Business Impact Analysis Report', 26, 21);
+    pdf.text('Business Impact Analysis Report', 10, 21);
 
     // Add captured image
     let position = 35;
@@ -226,7 +200,7 @@ export const generatePDFWithCharts = async (element, scenario) => {
       pdf.addImage(imgData, 'PNG', 10, position, imgWidth, imgHeight);
     }
 
-    const filename = `ImpactLens_Visual_${scenario.name?.replace(/[^a-z0-9]/gi, '_') || 'Report'}_${new Date().toISOString().split('T')[0]}.pdf`;
+    const filename = `ImpactIQ_Visual_${scenario.name?.replace(/[^a-z0-9]/gi, '_') || 'Report'}_${new Date().toISOString().split('T')[0]}.pdf`;
     pdf.save(filename);
 
     return { success: true, filename };

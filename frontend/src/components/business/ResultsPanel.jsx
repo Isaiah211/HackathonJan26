@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { BarChart, Bar, PieChart, Pie, Cell, XAxis, YAxis, CartesianGrid, Tooltip as RechartsTooltip, ResponsiveContainer, Legend } from 'recharts';
 import { TrendingUp, Users, DollarSign, TrendingDown, ChevronDown, ChevronUp, Building2, FileText } from 'lucide-react';
 import Button from '../ui/Button';
-import { formatCurrencyFromThousands, formatPercent, formatNumber } from '../../utils/formatters';
 
 /**
  * Metric Card Component
@@ -162,21 +161,21 @@ const ResultsPanel = ({ businesses = [], selectedBusinessId, onExportPDF }) => {
           <MetricCard
             icon={DollarSign}
             label="Annual Revenue"
-            value={formatCurrencyFromThousands(predictions.revenue)}
+            value={`$${predictions.revenue}k`}
             detail="Estimated gross revenue"
             color="success"
           />
           <MetricCard
             icon={TrendingUp}
             label="Foot Traffic"
-            value={`+${formatPercent(predictions.footTraffic, 1)}`}
+            value={`+${predictions.footTraffic}%`}
             detail="Increase in area"
             color="warning"
           />
           <MetricCard
             icon={DollarSign}
             label="Tax Revenue"
-            value={formatCurrencyFromThousands(predictions.taxRevenue.total)}
+            value={`$${predictions.taxRevenue.total}k`}
             detail="Annual to city"
             color="accent"
           />
@@ -196,7 +195,7 @@ const ResultsPanel = ({ businesses = [], selectedBusinessId, onExportPDF }) => {
                   />
                   <Legend />
                   <Bar dataKey="jobs" fill="#6366f1" name="Total Jobs" />
-                  <Bar dataKey="revenue" fill="#10b981" name="Revenue" />
+                  <Bar dataKey="revenue" fill="#10b981" name="Revenue ($k)" />
                 </BarChart>
               </ResponsiveContainer>
               
@@ -207,11 +206,11 @@ const ResultsPanel = ({ businesses = [], selectedBusinessId, onExportPDF }) => {
                 </div>
                 <div className="text-center">
                   <p className="text-xs text-neutral-600 mb-1">Total Revenue</p>
-                  <p className="text-lg font-bold text-neutral-900">{formatCurrencyFromThousands(aggregateMetrics.totalRevenue)}</p>
+                  <p className="text-lg font-bold text-neutral-900">${aggregateMetrics.totalRevenue}k</p>
                 </div>
                 <div className="text-center">
                   <p className="text-xs text-neutral-600 mb-1">Total Tax</p>
-                  <p className="text-lg font-bold text-neutral-900">{formatCurrencyFromThousands(aggregateMetrics.totalTax)}</p>
+                  <p className="text-lg font-bold text-neutral-900">${aggregateMetrics.totalTax}k</p>
                 </div>
               </div>
             </div>
@@ -247,7 +246,7 @@ const ResultsPanel = ({ businesses = [], selectedBusinessId, onExportPDF }) => {
                     cx="50%"
                     cy="50%"
                     labelLine={false}
-                    label={(entry) => `${entry.name}: ${formatCurrencyFromThousands(entry.value)}`}
+                    label={(entry) => `${entry.name}: $${entry.value}k`}
                     outerRadius={60}
                     dataKey="value"
                   >
@@ -267,27 +266,27 @@ const ResultsPanel = ({ businesses = [], selectedBusinessId, onExportPDF }) => {
           <div className="grid grid-cols-2 gap-4">
             <div>
               <p className="text-xs text-neutral-500 mb-1">Local Spending Impact</p>
-              <p className="text-lg font-semibold text-neutral-900">{formatCurrencyFromThousands(predictions.localSpending)} / year</p>
+              <p className="text-lg font-semibold text-neutral-900">${predictions.localSpending}k/year</p>
             </div>
             <div>
               <p className="text-xs text-neutral-500 mb-1">Area Median Income</p>
-              <p className="text-lg font-semibold text-neutral-900">${formatNumber(areaData.medianIncome)}</p>
+              <p className="text-lg font-semibold text-neutral-900">${areaData.medianIncome.toLocaleString()}</p>
             </div>
             <div>
               <p className="text-xs text-neutral-500 mb-1">Population Density</p>
-              <p className="text-lg font-semibold text-neutral-900">{formatNumber(areaData.populationDensity)}/mi²</p>
+              <p className="text-lg font-semibold text-neutral-900">{areaData.populationDensity.toLocaleString()}/mi²</p>
             </div>
             <div>
               <p className="text-xs text-neutral-500 mb-1">Transit Score</p>
-              <p className="text-lg font-semibold text-neutral-900">{formatNumber(areaData.transitScore)}/100</p>
+              <p className="text-lg font-semibold text-neutral-900">{areaData.transitScore}/100</p>
             </div>
             <div>
               <p className="text-xs text-neutral-500 mb-1">Existing Businesses</p>
-              <p className="text-lg font-semibold text-neutral-900">{formatNumber(areaData.existingBusinessCount)}</p>
+              <p className="text-lg font-semibold text-neutral-900">{areaData.existingBusinessCount}</p>
             </div>
             <div>
               <p className="text-xs text-neutral-500 mb-1">Unemployment Rate</p>
-              <p className="text-lg font-semibold text-neutral-900">{formatPercent(areaData.unemploymentRate, 1)}</p>
+              <p className="text-lg font-semibold text-neutral-900">{areaData.unemploymentRate}%</p>
             </div>
           </div>
         </CollapsibleSection>
