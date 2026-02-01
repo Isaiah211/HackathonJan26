@@ -1,0 +1,24 @@
+{
+  "features": [
+    "population_density",
+    "median_income",
+    "unemployment_rate",
+    "existing_business_count",
+    "road_density",
+    "transit_score",
+    "same_type_business_share",
+    "scale_value",
+    "business_type_grocery",
+    "business_type_restaurant",
+    "business_type_retail",
+    "business_type_service",
+    "business_type_healthcare",
+    "business_type_entertainment"
+  ],
+  "targets": [
+    "wages",
+    "foot_traffic",
+    "local_spending",
+    "sales_tax"
+  ]
+}
