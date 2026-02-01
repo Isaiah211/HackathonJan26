@@ -8,6 +8,9 @@ pnpm-lock.yaml
 dist/
 build/
 .vite/
+# Build output
+dist/
+build/
 
 # Environment
 .env
@@ -15,6 +18,7 @@ build/
 .env.production
 
 # IDE
+# Editor
 .vscode/
 .idea/
 *.swp
@@ -39,3 +43,13 @@ coverage/
 # Misc
 .cache/
 *.tsbuildinfo
+*.log
+npm-debug.log*
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+.venv/
+venv/
+*.egg-info/

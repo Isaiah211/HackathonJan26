@@ -1,0 +1,27 @@
+version: '3.8'
+
+services:
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    ports:
+      - "8000:8000"
+    environment:
+      - ML_SERVICE_URL=http://ml-service:9000
+    depends_on:
+      - ml-service
+    volumes:
+      - ./backend/datasets:/app/datasets
+      - ./backend/public:/app/public
+
+  ml-service:
+    build:
+      context: .
+      dockerfile: ml/prediction_service/Dockerfile
+    ports:
+      - "9000:9000"
+    volumes:
+      - ./ml:/app/ml
+      - ./backend/datasets:/app/backend/datasets
+

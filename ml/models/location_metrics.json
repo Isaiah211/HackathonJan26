@@ -1,0 +1,74 @@
+{
+  "downtown_albany": {
+    "population": 4724.0,
+    "population_density": 625.980537087729,
+    "median_income": 38880.73518204911,
+    "unemployment_rate": 0.11259619279060348,
+    "existing_business_count": 673.0,
+    "business_type_counts": {
+      "grocery": 0,
+      "restaurant": 121,
+      "retail": 0,
+      "service": 5,
+      "healthcare": 7,
+      "entertainment": 0
+    },
+    "road_density": 37.26200495746235,
+    "transit_score": 120.0,
+    "area_km2": 7.546560508059292
+  },
+  "central_ave": {
+    "population": 5772.0,
+    "population_density": 274.2406508564225,
+    "median_income": 40526.24324324324,
+    "unemployment_rate": 0.06673441734417344,
+    "existing_business_count": 787.0,
+    "business_type_counts": {
+      "grocery": 0,
+      "restaurant": 80,
+      "retail": 0,
+      "service": 9,
+      "healthcare": 4,
+      "entertainment": 0
+    },
+    "road_density": 25.495626526808017,
+    "transit_score": 120.0,
+    "area_km2": 21.047207924772266
+  },
+  "arbor_hill": {
+    "population": 3200.0,
+    "population_density": 285.5760341049881,
+    "median_income": 50875.0,
+    "unemployment_rate": 0.061780104712041886,
+    "existing_business_count": 82.0,
+    "business_type_counts": {
+      "grocery": 0,
+      "restaurant": 4,
+      "retail": 0,
+      "service": 1,
+      "healthcare": 0,
+      "entertainment": 0
+    },
+    "road_density": 18.454567442881935,
+    "transit_score": 89.24251065780878,
+    "area_km2": 11.205422086727221
+  },
+  "wolf_road": {
+    "population": 315041.0,
+    "population_density": 15176.125383274417,
+    "median_income": 85767.1798718262,
+    "unemployment_rate": 0.052483780951596004,
+    "existing_business_count": 69.0,
+    "business_type_counts": {
+      "grocery": 0,
+      "restaurant": 0,
+      "retail": 0,
+      "service": 0,
+      "healthcare": 0,
+      "entertainment": 0
+    },
+    "road_density": 6.9901471936635815,
+    "transit_score": 35.647210311112104,
+    "area_km2": 20.75898768912427
+  }
+}

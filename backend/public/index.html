@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Capital Region Business Impact Sandbox</title>
+    <style>
+      :root {
+        color-scheme: light;
+        font-family: "Space Grotesk", "Segoe UI", Tahoma, Geneva, sans-serif;
+        --bg: #0f172a;
+        --panel: #f8fafc;
+        --accent: #0ea5e9;
+        --border: rgba(15, 23, 42, 0.1);
+        --text: #0f172a;
+      }
+      body {
+        margin: 0;
+        min-height: 100vh;
+        background: radial-gradient(circle at top, #172554, #020617 55%);
+        color: var(--text);
+        display: flex;
+        justify-content: center;
+        align-items: flex-start;
+        padding: 40px 16px;
+      }
+      .panel {
+        width: min(1100px, 100%);
+        background: var(--panel);
+        border-radius: 28px;
+        padding: 40px;
+        box-shadow: 0 30px 80px rgba(2, 6, 23, 0.4);
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+        gap: 32px;
+      }
+      h1 {
+        margin-top: 0;
+        font-size: 2.4rem;
+        letter-spacing: -0.02em;
+      }
+      form label {
+        font-weight: 600;
+        display: block;
+        margin-bottom: 8px;
+      }
+      textarea,
+      select,
+      input {
+        width: 100%;
+        border-radius: 14px;
+        padding: 14px 16px;
+        border: 1px solid var(--border);
+        font-size: 1rem;
+        font-family: inherit;
+        box-sizing: border-box;
+      }
+      textarea {
+        min-height: 110px;
+        resize: vertical;
+      }
+      button {
+        width: 100%;
+        padding: 14px 16px;
+        background: var(--accent);
+        color: #fff;
+        border: none;
+        border-radius: 14px;
+        font-size: 1rem;
+        font-weight: 600;
+        cursor: pointer;
+      }
+      fieldset {
+        border: none;
+        margin: 0;
+        padding: 0;
+        display: grid;
+        gap: 18px;
+      }
+      .pill-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        margin-top: 12px;
+      }
+      .pill {
+        background: rgba(14, 165, 233, 0.1);
+        color: #0f172a;
+        border-radius: 999px;
+        padding: 6px 14px;
+        font-size: 0.9rem;
+      }
+      .results-card {
+        background: #0f172a;
+        color: #f8fafc;
+        border-radius: 24px;
+        padding: 24px;
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+        min-height: 420px;
+      }
+      .metric-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+        gap: 12px;
+      }
+      .metric {
+        background: rgba(248, 250, 252, 0.08);
+        border-radius: 16px;
+        padding: 12px 14px;
+      }
+      .metric h3 {
+        margin: 0;
+        font-size: 0.9rem;
+        color: rgba(248, 250, 252, 0.7);
+      }
+      .metric p {
+        margin: 6px 0 0;
+        font-size: 1.4rem;
+        font-weight: 600;
+      }
+      .summary {
+        margin-top: auto;
+        font-size: 0.95rem;
+        line-height: 1.5;
+        color: rgba(248, 250, 252, 0.8);
+      }
+      .prompt {
+        font-size: 0.85rem;
+        color: rgba(248, 250, 252, 0.7);
+        font-style: italic;
+        margin: 0;
+      }
+      .context-grid {
+        margin-top: 12px;
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+        gap: 8px;
+      }
+      .context-item {
+        background: rgba(248, 250, 252, 0.05);
+        border-radius: 12px;
+        padding: 10px 12px;
+        font-size: 0.9rem;
+      }
+      .error {
+        background: #fee2e2;
+        color: #991b1b;
+        border-radius: 12px;
+        padding: 12px 14px;
+        font-size: 0.9rem;
+      }
+    </style>
+  </head>
+  <body>
+    <main class="panel">
+      <section>
+        <h1>Business Impact Playground</h1>
+        <p>Try natural-language prompts or specify inputs directly to see predicted wages, foot traffic, and spending impacts for the Capital Region.</p>
+        <form id="prediction-form">
+          <fieldset>
+            <div>
+              <label for="query">Natural-language brief</label>
+              <textarea id="query" name="query" placeholder="e.g. Medium grocery store near Downtown Albany"></textarea>
+              <div class="pill-row">
+                <span class="pill">"Small cafe in Arbor Hill"</span>
+                <span class="pill">"Large retail store on Wolf Road"</span>
+              </div>
+            </div>
+            <div>
+              <label for="businessType">Business type (optional override)</label>
+              <select id="businessType" name="businessType">
+                <option value="">Auto-detect</option>
+                <option value="grocery">Grocery</option>
+                <option value="restaurant">Restaurant</option>
+                <option value="retail">Retail</option>
+                <option value="service">Service</option>
+                <option value="healthcare">Healthcare</option>
+                <option value="entertainment">Entertainment</option>
+              </select>
+            </div>
+            <div>
+              <label for="scale">Scale</label>
+              <select id="scale" name="scale">
+                <option value="">Auto-detect from prompt</option>
+                <option value="small">Small</option>
+                <option value="medium">Medium</option>
+                <option value="large">Large</option>
+              </select>
+            </div>
+            <div>
+              <label for="location">Location</label>
+              <select id="location" name="location">
+                <option value="">Detect from prompt (Albany coverage)</option>
+              </select>
+            </div>
+            <button type="submit">Run prediction</button>
+          </fieldset>
+        </form>
+      </section>
+      <section class="results-card" id="results">
+        <h2>Results</h2>
+        <p>Fill out the form to generate estimates.</p>
+      </section>
+    </main>
+    <script>
+      const form = document.getElementById("prediction-form");
+      const resultsPanel = document.getElementById("results");
+      const locationSelect = document.getElementById("location");
+      const pillRow = document.querySelectorAll(".pill");
+
+      pillRow.forEach((pill) => {
+        pill.addEventListener("click", () => {
+          document.getElementById("query").value = pill.textContent;
+        });
+      });
+
+      async function loadLocations() {
+        try {
+          const res = await fetch("/predict/locations");
+          const locations = await res.json();
+          locations.forEach((loc) => {
+            const opt = document.createElement("option");
+            opt.value = loc.key;
+            opt.textContent = loc.label;
+            locationSelect.appendChild(opt);
+          });
+        } catch (error) {
+          locationSelect.innerHTML = "<option value=''>Unable to load locations</option>";
+        }
+      }
+
+      function formatCurrency(value) {
+        return new Intl.NumberFormat("en-US", { style: "currency", currency: "USD", maximumFractionDigits: 0 }).format(value);
+      }
+
+      function renderResults(serverPayload) {
+        if (!serverPayload) return;
+        const { prediction, input, summary } = serverPayload;
+        const impact = prediction || {};
+        const promptLine = input?.query ? `<p class="prompt">${input.query}</p>` : "";
+        const feature = impact.feature_snapshot || {};
+        resultsPanel.innerHTML = `
+          <h2>${input?.locationLabel || "Impact"}</h2>
+          ${promptLine}
+          <p>Business type: <strong>${input?.businessType}</strong> · Scale: <strong>${input?.scale}</strong></p>
+          <div class="metric-grid">
+            <div class="metric">
+              <h3>Jobs created</h3>
+              <p>${Math.round(impact.jobs_created || 0).toLocaleString()}</p>
+            </div>
+            <div class="metric">
+              <h3>Wages</h3>
+              <p>${formatCurrency(impact.wages || 0)}</p>
+            </div>
+            <div class="metric">
+              <h3>Foot traffic</h3>
+              <p>${Math.round(impact.foot_traffic || 0).toLocaleString()}</p>
+            </div>
+            <div class="metric">
+              <h3>Local spending</h3>
+              <p>${formatCurrency(impact.local_spending || 0)}</p>
+            </div>
+            <div class="metric">
+              <h3>Sales tax</h3>
+              <p>${formatCurrency(impact.sales_tax || 0)}</p>
+            </div>
+          </div>
+          <div class="context-grid">
+            <div class="context-item">Density: ${Math.round(feature.population_density || 0).toLocaleString()} /km²</div>
+            <div class="context-item">Median income: ${formatCurrency(feature.median_income || 0)}</div>
+            <div class="context-item">Unemployment: ${((feature.unemployment_rate || 0) * 100).toFixed(1)}%</div>
+            <div class="context-item">Transit score: ${Math.round(feature.transit_score || 0)}</div>
+            <div class="context-item">Competition: ${Math.round(feature.existing_business_count || 0)}</div>
+          </div>
+          <div class="summary">${summary || ""}</div>
+        `;
+      }
+
+      function renderError(message) {
+        resultsPanel.innerHTML = `<div class="error">${message}</div>`;
+      }
+
+      form.addEventListener("submit", async (event) => {
+        event.preventDefault();
+        const scaleValue = document.getElementById("scale").value;
+        const payload = {
+          query: document.getElementById("query").value.trim() || undefined,
+          businessType: document.getElementById("businessType").value || undefined,
+          scale: scaleValue || undefined,
+          location: locationSelect.value || undefined,
+        };
+
+        try {
+          const res = await fetch("/predict", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(payload),
+          });
+          if (!res.ok) {
+            const err = await res.json();
+            throw new Error(err.error || "Prediction failed");
+          }
+          const data = await res.json();
+          renderResults(data);
+        } catch (error) {
+          renderError(error.message);
+        }
+      });
+
+      loadLocations();
+    </script>
+  </body>
+</html>
