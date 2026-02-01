@@ -15,6 +15,20 @@ services:
       - ./backend/datasets:/app/datasets
       - ./backend/public:/app/public
 
+  frontend:
+    image: node:18
+    working_dir: /app/frontend
+    command: sh -c "npm install && npm run dev -- --host --port 5173"
+    ports:
+      - "5173:5173"
+    environment:
+      - VITE_API_URL=http://backend:8000
+    depends_on:
+      - backend
+    volumes:
+      - ./frontend:/app/frontend
+      - ./src:/app/frontend/src
+
   ml-service:
     build:
       context: .

@@ -3,6 +3,7 @@ import { MapContainer, TileLayer, Marker, Popup, useMap, useMapEvents } from 're
 import L from 'leaflet';
 import { Search, MapPin, Loader, Navigation } from 'lucide-react';
 import 'leaflet/dist/leaflet.css';
+import { formatCurrencyFromThousands } from '../../utils/formatters';
 
 // Fix for default marker icons in Leaflet
 delete L.Icon.Default.prototype._getIconUrl;
@@ -14,6 +15,10 @@ L.Icon.Default.mergeOptions({
 
 const DEFAULT_CENTER = [42.6526, -73.7562]; // Albany, NY [lat, lng]
 const DEFAULT_ZOOM = 13;
+const CAPITAL_BOUNDS = [
+  [42.4, -74.3], // Southwest
+  [43.1, -73.4]  // Northeast
+];
 
 /**
  * Custom marker icon creator
@@ -191,6 +196,16 @@ const LeafletMap = ({
   const [selectedBusiness, setSelectedBusiness] = useState(null);
 
   const handleMapClick = (latlng) => {
+    const withinBounds =
+      latlng.lat >= CAPITAL_BOUNDS[0][0] &&
+      latlng.lat <= CAPITAL_BOUNDS[1][0] &&
+      latlng.lng >= CAPITAL_BOUNDS[0][1] &&
+      latlng.lng <= CAPITAL_BOUNDS[1][1];
+
+    if (!withinBounds) {
+      return; // Ignore clicks outside the Capital Region
+    }
+
     if (pendingBusiness && onBusinessPlace) {
       onBusinessPlace({
         lat: latlng.lat,
@@ -248,6 +263,10 @@ const LeafletMap = ({
         className={pendingBusiness ? 'cursor-crosshair' : 'cursor-grab'}
         zoomControl={false}
         attributionControl={true}
+        maxBounds={CAPITAL_BOUNDS}
+        maxBoundsViscosity={1.0}
+        minZoom={10}
+        maxZoom={18}
       >
         <TileLayer
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
@@ -346,13 +365,13 @@ const LeafletMap = ({
                         <div>
                           <p className="text-neutral-500">Annual Revenue</p>
                           <p className="font-semibold text-neutral-900">
-                            ${business.predictions.revenue}k
+                            {formatCurrencyFromThousands(business.predictions.revenue)}
                           </p>
                         </div>
                         <div>
                           <p className="text-neutral-500">Tax Revenue</p>
                           <p className="font-semibold text-neutral-900">
-                            ${business.predictions.taxRevenue.total}k
+                            {formatCurrencyFromThousands(business.predictions.taxRevenue.total)}
                           </p>
                         </div>
                       </>
