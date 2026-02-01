@@ -4,6 +4,10 @@ package-lock.json
 yarn.lock
 pnpm-lock.yaml
 
+# Build outputs
+dist/
+build/
+.vite/
 # Build output
 dist/
 build/
@@ -13,6 +17,7 @@ build/
 .env.local
 .env.production
 
+# IDE
 # Editor
 .vscode/
 .idea/
@@ -25,6 +30,19 @@ build/
 Thumbs.db
 
 # Logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Testing
+coverage/
+.nyc_output/
+
+# Misc
+.cache/
+*.tsbuildinfo
 *.log
 npm-debug.log*
 
